@@ -25,12 +25,13 @@ interface TaskContractor {
     }
 
     interface Presenter: BasePresenter{
-        var currentFiltering: String
+        var currentFiltering: TaskFilterType
 
-        fun loadTasks()
-        fun completeTask(completedTask: Task)
-        fun activateTask(activeTask: Task)
-        fun clearCompletedTasks()
+        fun loadTasks(forceUpdate: Boolean)
+//        fun completeTask(completedTask: Task)
+//        fun activateTask(activeTask: Task)
+//        fun clearCompletedTasks()
         fun addNewTask()
+        fun start()
     }
 }

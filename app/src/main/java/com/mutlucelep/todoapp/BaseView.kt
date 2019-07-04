@@ -1,3 +1,5 @@
 package com.mutlucelep.todoapp
 
-interface BaseView
+interface BaseView<T>{
+    var presenter: T
+}

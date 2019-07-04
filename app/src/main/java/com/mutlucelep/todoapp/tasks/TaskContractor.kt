@@ -5,23 +5,23 @@ import com.mutlucelep.todoapp.BaseView
 import com.mutlucelep.todoapp.data.Task
 
 interface TaskContractor {
-    interface View: BaseView{
+    interface View: BaseView <Presenter>{
         var isActive: Boolean
 
-        fun showTasks()
+        fun showTasks(tasks: List<Task>)
         fun showNoTasks()
         fun showNoActiveTasks()
         fun showNoCompletedTasks()
         fun showLoadingIndicator(active: Boolean)
         fun showLoadingTasksError()
-        fun showTaskMarkedCompleted()
-        fun showTaskMarkedActive()
-        fun showCompletedTasksCleared()
+//        fun showTaskMarkedCompleted()
+//        fun showTaskMarkedActive()
+//        fun showCompletedTasksCleared()
         fun showActiveFilterLabel()
         fun showCompletedFilterLabel()
         fun showAllFilterLabel()
-        fun showSuccessfulMessage()
-        fun showFilteringPopUpMenu()
+//        fun showSuccessfulMessage()
+//        fun showFilteringPopUpMenu()
     }
 
     interface Presenter: BasePresenter{

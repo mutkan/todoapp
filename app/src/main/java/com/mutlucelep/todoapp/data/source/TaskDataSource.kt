@@ -3,10 +3,18 @@ package com.mutlucelep.todoapp.data.source
 import com.mutlucelep.todoapp.data.Task
 
 interface TaskDataSource {
-    interface LoadTasksCallBack{
+    interface LoadTasksCallback{
         fun onTasksLoaded(tasks: List<Task>)
         fun onDataNotAvailable()
     }
 
-    fun getTasks(callback: LoadTasksCallBack)
+    interface GetTaskCallback{
+        fun onTaskLoaded(task: Task)
+        fun onDataNotAvailable()
+    }
+
+    fun getTasks(callback: LoadTasksCallback)
+    fun completeTask(task: Task)
+    fun activateTask(task: Task)
+    fun deleteAllTask()
 }

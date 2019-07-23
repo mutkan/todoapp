@@ -85,6 +85,22 @@ class TaskFragment : Fragment(), TaskContractor.View {
 
     }
 
+    override fun showAddTask() {
+
+    }
+
+
+    override fun showTaskMarkedActive() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showTaskMarkedCompleted() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showTaskDetailUi(taskId: String) {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates
+    }
     override fun showNoTasks() {
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

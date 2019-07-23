@@ -8,9 +8,9 @@ class TaskPresenter(val taskRepository: TaskRepository, val taskView: TaskContra
     override var currentFiltering = TaskFilterType.ALL_TASKS
     private var firstLoading = true
 
-//    init {
-//        taskView.presenter = this
-//    }
+    init {
+        taskView.presenter = this
+    }
 
     override fun loadTasks(forceUpdate: Boolean) {
         loadTasks(forceUpdate || firstLoading, true)
@@ -23,7 +23,7 @@ class TaskPresenter(val taskRepository: TaskRepository, val taskView: TaskContra
         if (forceUpdate)
             taskRepository.refreshTasks()
 
-        taskRepository.getTasks(object : TaskDataSource.LoadTasksCallBack {
+        taskRepository.getTasks(object : TaskDataSource.LoadTasksCallback {
             override fun onTasksLoaded(tasks: List<Task>) {
                 val tasksToShow = mutableListOf<Task>()
                 for (task in tasks) {
@@ -38,11 +38,11 @@ class TaskPresenter(val taskRepository: TaskRepository, val taskView: TaskContra
                     }
                 }
 
-                if(!taskView.isActive){
+                if (!taskView.isActive) {
                     return
                 }
 
-                if (showLoadingUI){
+                if (showLoadingUI) {
                     taskView.showLoadingIndicator(false)
                 }
 
@@ -50,10 +50,10 @@ class TaskPresenter(val taskRepository: TaskRepository, val taskView: TaskContra
             }
 
             override fun onDataNotAvailable() {
-                if (!taskView.isActive){
+                if (!taskView.isActive) {
                     return
                 }
-                if (showLoadingUI){
+                if (showLoadingUI) {
                     taskView.showLoadingIndicator(false)
                 }
 
@@ -63,32 +63,32 @@ class TaskPresenter(val taskRepository: TaskRepository, val taskView: TaskContra
         })
     }
 
-    private fun processTasks(tasks: List<Task>){
-        if(tasks.isEmpty()){
+    private fun processTasks(tasks: List<Task>) {
+        if (tasks.isEmpty()) {
             processEmptyTask()
-        }else{
+        } else {
             taskView.showTasks(tasks)
             showFilterLabel()
         }
     }
 
-    private fun processEmptyTask(){
-        when(currentFiltering){
+    private fun processEmptyTask() {
+        when (currentFiltering) {
             TaskFilterType.COMPLETED_TASKS -> taskView.showNoCompletedTasks()
             TaskFilterType.ACTIVE_TASKS -> taskView.showNoActiveTasks()
             else -> taskView.showNoTasks()
         }
     }
 
-    private fun showFilterLabel(){
-        when(currentFiltering){
-            TaskFilterType.ACTIVE_TASKS->taskView.showActiveFilterLabel()
-            TaskFilterType.COMPLETED_TASKS->taskView.showCompletedFilterLabel()
+    private fun showFilterLabel() {
+        when (currentFiltering) {
+            TaskFilterType.ACTIVE_TASKS -> taskView.showActiveFilterLabel()
+            TaskFilterType.COMPLETED_TASKS -> taskView.showCompletedFilterLabel()
             else -> taskView.showAllFilterLabel()
         }
     }
 
-//    override fun completeTask(completedTask: Task) {
+    //    override fun completeTask(completedTask: Task) {
 //        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 //    }
 //
@@ -101,11 +101,26 @@ class TaskPresenter(val taskRepository: TaskRepository, val taskView: TaskContra
 //    }
 //
     override fun addNewTask() {
-
+        taskView.showAddTask()
     }
 
     override fun start() {
         loadTasks(false)
     }
 
+    override fun openTaskDetail(requestedTask: Task) {
+        taskView.showTaskDetailUi(requestedTask.id)
+    }
+
+    override fun completeTask(completedTask: Task) {
+        taskRepository.completeTask(completedTask)
+        taskView.showTaskMarkedCompleted()
+        loadTasks(false, false)
+    }
+
+    override fun activateTask(activeTask: Task) {
+        taskRepository.activateTask(activeTask)
+        taskView.showTaskMarkedActive()
+        loadTasks(false, false)
+    }
 }

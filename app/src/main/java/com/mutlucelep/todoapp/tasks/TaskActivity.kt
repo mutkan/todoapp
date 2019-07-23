@@ -9,11 +9,14 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.mutlucelep.todoapp.MainActivity
 import com.mutlucelep.todoapp.R
+import com.mutlucelep.todoapp.data.source.TaskRepository
 import com.mutlucelep.todoapp.utils.replaceFragmentInActivity
 import com.mutlucelep.todoapp.utils.setupActionBar
 
 class TaskActivity : AppCompatActivity() {
+    private val CURRENT_FILTERING_KEY = "CURRENT_FILTERING_KEY"
     private lateinit var dl_task: DrawerLayout
+    private lateinit var taskPresenter: TaskPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +36,20 @@ class TaskActivity : AppCompatActivity() {
             replaceFragmentInActivity(it, R.id.fl_task)
         }
 
+        taskPresenter = TaskPresenter(Injection.provideTaskRepository(applicationContext), taskFragment).apply {
+            if(savedInstanceState!=null){
+                currentFiltering = savedInstanceState.getSerializable(CURRENT_FILTERING_KEY) as TaskFilterType
 
+            }
+        }
+
+
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState?.apply {
+            putSerializable(CURRENT_FILTERING_KEY, taskPresenter.currentFiltering)
+        })
     }
 
     private fun setupDrawerContent(navigationView: NavigationView) {

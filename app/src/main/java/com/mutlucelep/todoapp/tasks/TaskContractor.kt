@@ -14,12 +14,14 @@ interface TaskContractor {
         fun showNoCompletedTasks()
         fun showLoadingIndicator(active: Boolean)
         fun showLoadingTasksError()
-//        fun showTaskMarkedCompleted()
-//        fun showTaskMarkedActive()
+        fun showAddTask()
+        fun showTaskMarkedCompleted()
+        fun showTaskMarkedActive()
 //        fun showCompletedTasksCleared()
         fun showActiveFilterLabel()
         fun showCompletedFilterLabel()
         fun showAllFilterLabel()
+        fun showTaskDetailUi(taskId: String)
 //        fun showSuccessfulMessage()
 //        fun showFilteringPopUpMenu()
     }
@@ -28,8 +30,9 @@ interface TaskContractor {
         var currentFiltering: TaskFilterType
 
         fun loadTasks(forceUpdate: Boolean)
-//        fun completeTask(completedTask: Task)
-//        fun activateTask(activeTask: Task)
+        fun openTaskDetail(requestedTask: Task)
+        fun completeTask(completedTask: Task)
+        fun activateTask(activeTask: Task)
 //        fun clearCompletedTasks()
         fun addNewTask()
         fun start()

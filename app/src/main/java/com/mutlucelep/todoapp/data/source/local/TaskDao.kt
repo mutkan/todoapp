@@ -1,9 +1,6 @@
 package com.mutlucelep.todoapp.data.source.local
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.mutlucelep.todoapp.data.Task
 
 @Dao

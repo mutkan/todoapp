@@ -13,4 +13,11 @@ interface TaskDao {
 
     @Query("SELECT * FROM tasks WHERE id=:taskId")
     fun getTaskById(taskId: String): Task?
+
+    @Update
+    fun updateTask(updatedTask: Task)
+
+    @Query("UPDATE tasks SET completed=:b WHERE id=:id")
+    fun updateCompletedTask(id: String, b: Boolean)
+
 }

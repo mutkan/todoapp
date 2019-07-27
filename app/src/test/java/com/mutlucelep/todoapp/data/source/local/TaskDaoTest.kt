@@ -4,7 +4,6 @@ import androidx.room.Room
 import com.mutlucelep.todoapp.data.Task
 import org.hamcrest.core.Is.`is`
 import org.junit.After
-import org.junit.Assert
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertThat
 import org.junit.Before
@@ -25,7 +24,7 @@ class TaskDaoTest {
     }
 
     @After
-    fun endUp() {
+    fun tearDown() {
         database.close()
     }
 

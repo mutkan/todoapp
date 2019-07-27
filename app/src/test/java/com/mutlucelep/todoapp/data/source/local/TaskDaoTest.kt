@@ -73,7 +73,18 @@ class TaskDaoTest {
 
         assertTask(loaded, NEW_TITLE, NEW_DESCRIPTION, DEFAULT_ID, NEW_IS_COMPLETED)
     }
-    
+
+    @Test
+    fun updateCompletedAndGetById() {
+        database.taskDao().insertTask(DEFAULT_TASK)
+
+        database.taskDao().updateCompletedTask(DEFAULT_TASK.id, true)
+
+        val updatedTask = database.taskDao().getTaskById(DEFAULT_TASK.id)
+
+        assertTask(updatedTask, DEFAULT_TITLE, DEFAULT_DESCRIPTION, DEFAULT_ID, true)
+    }
+
     private fun assertTask(task: Task?, title: String, desc: String, id: String, isCompleted: Boolean) {
         assertNotNull(task as Task)
         assertThat(task.id, `is`(id))

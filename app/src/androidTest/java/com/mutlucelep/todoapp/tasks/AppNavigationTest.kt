@@ -13,5 +13,22 @@ class AppNavigationTest {
     @JvmField
     val activityTestRule = ActivityTestRule(TaskActivity::class.java)
 
+    @Test
+    fun clickOnAndroidHomeIcon_OpensNavigation() {
+        onView(withId(R.id.dl_task))
+            .check(matches(isClosed(Gravity.START)))
+
+        onView(
+            withContentDescription(
+                getToolbarNavigationContentDescription(
+                    activityTestRule.activity, R.id.tb_task
+                )
+            )
+        )
+            .perform(click())
+
+        onView(withId(R.id.dl_task))
+            .check(matches(isOpen(Gravity.START)))
+    }
 
 }

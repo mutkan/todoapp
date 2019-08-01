@@ -1,3 +1,5 @@
 package com.mutlucelep.todoapp
 
-interface BasePresenter
+interface BasePresenter {
+    fun start()
+}

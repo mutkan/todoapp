@@ -35,6 +35,6 @@ interface TaskContractor {
         fun activateTask(activeTask: Task)
 //        fun clearCompletedTasks()
         fun addNewTask()
-        fun start()
+
     }
 }

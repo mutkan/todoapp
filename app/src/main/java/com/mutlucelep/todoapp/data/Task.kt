@@ -7,7 +7,7 @@ import java.util.*
 
 
 @Entity(tableName = "tasks")
-data class Task(val title: String, val description: String, @PrimaryKey val id: String = UUID.randomUUID().toString()) {
+data class Task(val title: String = "", val description: String = "", @PrimaryKey val id: String = UUID.randomUUID().toString()) {
 
     @ColumnInfo(name="completed") var isCompleted : Boolean = false
 

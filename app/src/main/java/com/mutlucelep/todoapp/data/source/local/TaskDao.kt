@@ -26,4 +26,6 @@ interface TaskDao {
     @Query("DELETE FROM tasks")
     fun deleteTasks()
 
+    @Query("DELETE FROM tasks WHERE completed=1")
+    fun deleteCompletedTasks()
 }

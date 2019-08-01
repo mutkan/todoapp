@@ -23,4 +23,7 @@ interface TaskDao {
     @Query("DELETE FROM tasks WHERE id=:taskId")
     fun deleteTaskById(taskId: String): Int
 
+    @Query("DELETE FROM tasks")
+    fun deleteTasks()
+
 }

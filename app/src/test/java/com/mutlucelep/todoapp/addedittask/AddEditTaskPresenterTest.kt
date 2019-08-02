@@ -49,4 +49,13 @@ class AddEditTaskPresenterTest {
         verify(taskRepository).saveTask(any<Task>())
         verify(addEditTaskView).showTasksList()
     }
+
+    @Test
+    fun saveNewTask_ShowErrorMsg(){
+        addEditTaskPresenter = AddEditTaskPresenter(null, true, taskRepository, addEditTaskView)
+
+        addEditTaskPresenter.saveTask("","")
+
+        verify(addEditTaskView).showEmptyTaskError()
+    }
 }

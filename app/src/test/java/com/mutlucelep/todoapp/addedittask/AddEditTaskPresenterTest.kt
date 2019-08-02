@@ -18,12 +18,26 @@ import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 
 class AddEditTaskPresenterTest {
-    @Mock lateinit var addEditTaskView: AddEditTaskContractor.View
+    @Mock
+    lateinit var addEditTaskView: AddEditTaskContractor.View
+    @Mock
+    lateinit var taskRepository: TaskRepository
+    @Captor
+    lateinit var getTaskCallbackCaptor: ArgumentCaptor<TaskDataSource.GetTaskCallback>
+
+
+    lateinit var addEditTaskPresenter: AddEditTaskPresenter
     @Before
-    fun setUp(){
+    fun setUp() {
         MockitoAnnotations.initMocks(this)
         `when`(addEditTaskView.isActive).thenReturn(true)
     }
 
+    @Test
+    fun createPresenter_checksThePresenterSetToTheView() {
+        addEditTaskPresenter = AddEditTaskPresenter(null,true, taskRepository, addEditTaskView)
+
+        verify(addEditTaskView).presenter = addEditTaskPresenter
+    }
 
 }

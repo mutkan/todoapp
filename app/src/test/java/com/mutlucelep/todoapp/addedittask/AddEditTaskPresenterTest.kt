@@ -40,4 +40,13 @@ class AddEditTaskPresenterTest {
         verify(addEditTaskView).presenter = addEditTaskPresenter
     }
 
+    @Test
+    fun saveNewTaskToRepository_ShowTasksListScreen(){
+        addEditTaskPresenter = AddEditTaskPresenter(null,true, taskRepository, addEditTaskView)
+
+        addEditTaskPresenter.saveTask("TITLE1", "DESC")
+
+        verify(taskRepository).saveTask(any<Task>())
+        verify(addEditTaskView).showTasksList()
+    }
 }

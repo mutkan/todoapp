@@ -13,4 +13,7 @@ data class Task(val title: String = "", val description: String = "", @PrimaryKe
 
     val isActive: Boolean
         get() = !isCompleted
+
+    val isEmpty: Boolean
+        get() = title.isEmpty() && description.isEmpty()
 }

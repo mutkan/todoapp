@@ -68,4 +68,21 @@ class AddEditTaskPresenterTest {
         verify(taskRepository).saveTask(any<Task>())
         verify(addEditTaskView).showTasksList()
     }
+
+    @Test
+    fun populateTask_CallRepositoryAndUpdateTheViews(){
+        val task = Task("TITLE_1", "DESC")
+        addEditTaskPresenter = AddEditTaskPresenter(task.id, true, taskRepository, addEditTaskView).apply {
+            populateTask()
+        }
+
+        verify(taskRepository).getTask(eq(task.id), capture(getTaskCallbackCaptor))
+        assertThat(addEditTaskPresenter.isDataMissing, `is`(true))
+        getTaskCallbackCaptor.value.onTaskLoaded(task)
+
+        verify(addEditTaskView).isActive
+        verify(addEditTaskView).setTitle(task.title)
+        verify(addEditTaskView).setDescription(task.description)
+        assertThat(addEditTaskPresenter.isDataMissing, `is`(false))
+    }
 }

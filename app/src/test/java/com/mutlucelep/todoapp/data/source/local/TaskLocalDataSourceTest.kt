@@ -101,3 +101,11 @@ class TaskLocalDataSourceTest {
             })
         }
     }
+    companion object {
+        private val TASK_TITLE_1 = "TITLE1"
+        private val TASK_TITLE_2 = "TITLE2"
+        private val TASK_TITLE_3 = "TITLE3"
+        private val TASK_DESCRIPTION_1 = "DESCRIPTION1"
+        private val TASK_DESCRIPTION_2 = "DESCRIPTION2"
+    }
+}

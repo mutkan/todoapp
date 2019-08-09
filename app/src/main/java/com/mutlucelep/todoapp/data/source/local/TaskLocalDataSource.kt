@@ -43,7 +43,9 @@ class TaskLocalDataSource(val appExecutors: AppExecutors, val taskDao: TaskDao) 
     }
 
     override fun completeTask(completedTask: Task) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        appExecutors.diskIO.execute {
+            taskDao.updateCompletedTask(completedTask.id, true)
+        }
     }
 
     override fun completeTask(taskId: String) {

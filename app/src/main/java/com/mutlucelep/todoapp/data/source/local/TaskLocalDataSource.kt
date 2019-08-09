@@ -19,7 +19,16 @@ class TaskLocalDataSource(val appExecutors: AppExecutors, val taskDao: TaskDao):
     }
 
     override fun getTask(taskId: String, callback: TaskDataSource.GetTaskCallback) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        appExecutors.diskIO.execute {
+            val task = taskDao.getTaskById(taskId)
+            appExecutors.mainThreadHandler.execute {
+                if (task != null) {
+                    callback.onTaskLoaded(task)
+                } else {
+                    callback.onDataNotAvailable()
+                }
+            }
+        }
     }
 
     override fun clearCompletedTasks() {
@@ -50,8 +59,9 @@ class TaskLocalDataSource(val appExecutors: AppExecutors, val taskDao: TaskDao):
     }
 
     override fun saveTask(task: Task) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        appExecutors.diskIO.execute { taskDao.insertTask(task) }
     }
+
     companion object {
         private var INSTANCE: TaskLocalDataSource? = null
 

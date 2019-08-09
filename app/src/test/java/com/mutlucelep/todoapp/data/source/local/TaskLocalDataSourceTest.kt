@@ -41,3 +41,31 @@ class TaskLocalDataSourceTest {
     fun testPreConditions() {
         assertNotNull(taskLocalDataSource)
     }
+
+    @Test
+    fun saveTask_retrievesTask() {
+        // Given a new task
+        val newTask = Task(TASK_TITLE_1, TASK_DESCRIPTION_1)
+
+        var callbackExecuted = false
+        with(taskLocalDataSource) {
+            // When saved into the persistent repository
+            saveTask(newTask)
+
+            // Then the task can be retrieved from the persistent repository
+            getTask(newTask.id, object : TaskDataSource.GetTaskCallback {
+                override fun onTaskLoaded(task: Task) {
+                    assertThat(task, `is`(newTask))
+                    callbackExecuted = true
+                }
+
+                override fun onDataNotAvailable() {
+                    fail("Callback error")
+                    callbackExecuted = true
+                }
+            })
+
+        }
+
+        assertTrue("Assertions were never actually run", callbackExecuted)
+    }

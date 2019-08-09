@@ -69,3 +69,35 @@ class TaskLocalDataSourceTest {
 
         assertTrue("Assertions were never actually run", callbackExecuted)
     }
+
+    @Test
+    fun getTasks_retrievesSavedTasks() {
+        with(taskLocalDataSource) {
+            val task1 = Task(TASK_TITLE_1, TASK_DESCRIPTION_1)
+            saveTask(task1)
+            val task2 = Task(TASK_TITLE_2, TASK_DESCRIPTION_2)
+            saveTask(task2)
+
+            getTasks(object : TaskDataSource.LoadTasksCallback {
+                override fun onTasksLoaded(tasks: List<Task>) {
+                    assertNotNull(tasks)
+                    assertThat(tasks.size, `is`(2))
+
+                    var task1FoundId = false
+                    var task2FoundId = false
+
+                    for (task in tasks) {
+                        if (task.id == task1.id) task1FoundId = true
+                        if (task.id == task2.id) task2FoundId = true
+                    }
+
+                    assertTrue(task1FoundId)
+                    assertTrue(task2FoundId)
+                }
+
+                override fun onDataNotAvailable() {
+                    fail("Callback error")
+                }
+            })
+        }
+    }

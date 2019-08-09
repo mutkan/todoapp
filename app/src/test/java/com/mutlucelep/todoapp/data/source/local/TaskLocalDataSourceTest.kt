@@ -36,3 +36,8 @@ class TaskLocalDataSourceTest {
         database.close()
         TaskLocalDataSource.clearInstance()
     }
+
+    @Test
+    fun testPreConditions() {
+        assertNotNull(taskLocalDataSource)
+    }

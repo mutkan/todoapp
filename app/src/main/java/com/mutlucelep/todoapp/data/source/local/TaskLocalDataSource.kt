@@ -65,13 +65,18 @@ class TaskLocalDataSource(val appExecutors: AppExecutors, val taskDao: TaskDao) 
     companion object {
         private var INSTANCE: TaskLocalDataSource? = null
 
-        @JvmStatic fun getInstance(appExecutors: AppExecutors, taskDao: TaskDao): TaskLocalDataSource{
-            if (INSTANCE==null){
-                synchronized(TaskLocalDataSource::javaClass){
+        @JvmStatic
+        fun getInstance(appExecutors: AppExecutors, taskDao: TaskDao): TaskLocalDataSource {
+            if (INSTANCE == null) {
+                synchronized(TaskLocalDataSource::javaClass) {
                     INSTANCE = TaskLocalDataSource(appExecutors, taskDao)
                 }
             }
             return INSTANCE!!
+        }
+
+        fun clearInstance() {
+            INSTANCE = null
         }
     }
 

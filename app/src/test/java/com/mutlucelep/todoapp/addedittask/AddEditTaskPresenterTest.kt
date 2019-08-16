@@ -102,4 +102,20 @@ class AddEditTaskPresenterTest {
         assertThat(addEditTaskPresenter.isDataMissing, `is`(true))
     }
 
+    @Test
+    fun populateTask_WhenOpenExistingTask(){
+        val task = Task("TITLE_1", "DESC")
+        addEditTaskPresenter = AddEditTaskPresenter(task.id, true, taskRepository, addEditTaskView)
+
+        addEditTaskPresenter.start()
+
+        verify(taskRepository).getTask(eq(task.id), capture(getTaskCallbackCaptor))
+        assertThat(addEditTaskPresenter.isDataMissing, `is`(true))
+        getTaskCallbackCaptor.value.onTaskLoaded(task)
+
+        verify(addEditTaskView).isActive
+        verify(addEditTaskView).setTitle(task.title)
+        verify(addEditTaskView).setDescription(task.description)
+        assertThat(addEditTaskPresenter.isDataMissing, `is`(false))
+    }
 }

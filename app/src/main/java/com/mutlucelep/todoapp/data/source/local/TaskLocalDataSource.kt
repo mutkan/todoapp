@@ -38,8 +38,11 @@ class TaskLocalDataSource(val appExecutors: AppExecutors, val taskDao: TaskDao) 
     override fun deleteTask(taskId: String) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
     override fun deleteAllTask() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+       appExecutors.diskIO.execute {
+           taskDao.deleteTasks()
+       }
     }
 
     override fun completeTask(completedTask: Task) {

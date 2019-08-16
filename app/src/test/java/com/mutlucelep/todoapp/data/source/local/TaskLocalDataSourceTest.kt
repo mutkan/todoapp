@@ -127,6 +127,25 @@ class TaskLocalDataSourceTest {
 
         assertTrue("Assertion were never actually run", callbackExecuted)
     }
+    @Test
+    fun deleteAllTasks_retrievesTasks(){
+        val newTask1 = Task(TASK_TITLE_1)
+        val newTask2 = Task(TASK_TITLE_2)
+
+        val callback = mock(TaskDataSource.LoadTasksCallback::class.java)
+        with(taskLocalDataSource){
+            saveTask(newTask1)
+            saveTask(newTask2)
+
+            deleteAllTask()
+
+            getTasks(callback)
+
+            verify(callback).onDataNotAvailable()
+            verify(callback, never()).onTasksLoaded(LinkedList<Task>())
+        }
+    }
+
     companion object {
         private val TASK_TITLE_1 = "TITLE1"
         private val TASK_TITLE_2 = "TITLE2"

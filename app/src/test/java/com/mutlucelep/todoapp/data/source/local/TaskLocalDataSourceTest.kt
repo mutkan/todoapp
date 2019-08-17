@@ -128,6 +128,39 @@ class TaskLocalDataSourceTest {
         assertTrue("Assertion were never actually run", callbackExecuted)
     }
     @Test
+    fun clearCompletedTask_retrievesTasks() {
+        val newTask1 = Task(TASK_TITLE_1)
+        val newTask2 = Task(TASK_TITLE_2)
+        val newTask3 = Task(TASK_TITLE_3)
+        var callbackExecuted = false
+        with(taskLocalDataSource) {
+            saveTask(newTask1)
+            saveTask(newTask2)
+            saveTask(newTask3)
+
+            completeTask(newTask1)
+            completeTask(newTask3)
+
+            clearCompletedTasks()
+
+            getTasks(object : TaskDataSource.LoadTasksCallback {
+                override fun onTasksLoaded(tasks: List<Task>) {
+                    callbackExecuted = true
+                    assertThat(tasks.size, `is`(1))
+                    assertThat(tasks[0].isCompleted, `is`(false))
+                }
+
+                override fun onDataNotAvailable() {
+                    callbackExecuted = true
+                    fail("Callback error")
+
+                }
+            })
+        }
+
+        assertTrue("Assertions were never actually run", callbackExecuted)
+    }
+    @Test
     fun deleteAllTasks_retrievesTasks(){
         val newTask1 = Task(TASK_TITLE_1)
         val newTask2 = Task(TASK_TITLE_2)

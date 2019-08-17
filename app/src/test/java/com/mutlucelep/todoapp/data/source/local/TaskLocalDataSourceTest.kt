@@ -127,6 +127,33 @@ class TaskLocalDataSourceTest {
 
         assertTrue("Assertion were never actually run", callbackExecuted)
     }
+
+    @Test
+    fun activateTask_retrievesActivatedTask() {
+        val newTask = Task(TASK_TITLE_1, TASK_DESCRIPTION_1)
+        var callbackExecuted = false
+
+        with(taskLocalDataSource) {
+            saveTask(newTask)
+            completeTask(newTask)
+            activateTask(newTask)
+            getTask(newTask.id, object : TaskDataSource.GetTaskCallback {
+                override fun onTaskLoaded(task: Task) {
+                    callbackExecuted = true
+                    assertNotNull(task)
+                    assertThat(task.isCompleted, `is`(false))
+                }
+
+                override fun onDataNotAvailable() {
+                    callbackExecuted = true
+                    fail("Callback error")
+                }
+            })
+        }
+
+        assertTrue("Assertions were never actually run", callbackExecuted)
+    }
+
     @Test
     fun clearCompletedTask_retrievesTasks() {
         val newTask1 = Task(TASK_TITLE_1)
